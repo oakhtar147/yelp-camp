@@ -3,9 +3,20 @@
 <h1>Campgrounds</h1>
 <div><a href="/campgrounds/new">Add Campground</a></div>    
 
-<ul>
-    <!-- <%= campgrounds[0].title %> -->
     <% for(let i=0; i<campgrounds.length; ++i) {%>
-        <li> <a href="/campgrounds/<%= campgrounds[i]._id %>"> <%= campgrounds[i].title %></a> </li>
+        <div class="card mb-5" >
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="img-fluid" src="<%= campgrounds[i].image %>" alt="">
+                </div>
+                <div class="col-md-8 mt-3">
+                    <h5 class="card-title"><%= campgrounds[i].title %></h5>
+                    <p class="card-text"><%= campgrounds[i].description %></p>
+                    <p class="card-text">
+                        <small class="text-muted"><%=    campgrounds[i].location %></small>
+                    </p>
+                    <a class="btn btn-primary" href="/campgrounds/<%= campgrounds[i]._id %>" role="button">View</a>
+                </div>
+            </div>                
+        </div>
     <% } %>
-</ul>
