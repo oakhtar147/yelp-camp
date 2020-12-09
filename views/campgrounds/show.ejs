@@ -2,7 +2,7 @@
 
 
 <div class="row">
-    <div class="col-md-6 offset-3 mb-5">
+    <div class="col-md-6 mb-5">
         <div class="card">
             <img
               src="<%= campground.image %>"
@@ -20,5 +20,36 @@
                 </form>
             </div>
           </div>
+        </div>
+        <div class="col-md-6 mb-5">
+            <h3>Review</h3>
+            <form class="mb-3" action="/campgrounds/<%=campground._id%>/reviews" method=POST>
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Rating</label>
+                    <input type="range" class="form-range" name="review[rating]" min="1" max="5" id="rating">
+                </div>
+                <div class="mb-3">
+                    <label for="body" class="form-label">Review</label>
+                    <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-success">Submit</button>
+                </div>
+            </form>
+            <div class="mb-3">
+            <% for(let review of campground.reviews) { %>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title"><h4>Rating: <%= review.rating %></h4></div>   
+                        <div class="card-text"><p>Review: <%= review.body %></p></div>   
+                        <form action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE" method=POST>
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            <% } %>     
+            </div>
+        </div>
+        </div>
     </div>
 </div>
