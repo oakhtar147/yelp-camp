@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-6 offset-3">
         <h1 class="text-center">Update Campground</h1>
-        <form action="/campgrounds/<%= campground._id %>?_method=PUT" method=POST novalidate class="needs-validation">
+        <form action="/campgrounds/<%= campground._id %>?_method=PUT" method=POST enctype="multipart/form-data" novalidate class="needs-validation">
 
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label> 
@@ -18,14 +18,6 @@
                 <input class="form-control" type="text" id="location" name="campground[location]" value="<%= campground.location %>" required>
                 <div class="invalid-feedback">
                     Please provide a valid location.
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label" for="image">Image URL</label>
-                <input class="form-control" type="text" id="image" name="campground[image]" value="<%= campground.image %>" required>
-                <div class="invalid-feedback">
-                    Please provide a valid URL.
                 </div>
             </div>
 
@@ -46,8 +38,24 @@
                 <textarea class="form-control" id="description" placeholder="Optional" name="campground[description]"><%= campground.description %></textarea>
             </div>
 
+            <div class="mb-4">
+                <label for="campgroundImages" class="form-label">Upload Images</label>
+                <input class="form-control" type="file" id="campgroundImages" name="campgroundImages" multiple>
+            </div>
+
+            <div class="mb-3">
+                <h5>Select images you would like to remove</h5>
+                <hr>
+                <% campground.images.forEach((img, i) => { %> 
+                    <img src="<%= img.thumbnail %>" class="img-thumbnail" alt="">
+                    <div class="form-check-inline">
+                        <input type="checkbox" id="image-<%= i %>" name="imagesToDelete[]" value="<%= img.filename %>">
+                    </div>
+                <% }) %> 
+            </div>
+
             <div class="mb-3">    
-                <button class="btn btn-info ">Update Campground</button>
+                <button class="btn btn-info ">Update Campground</button>    
             </div>
         </form>
         <a href="/campgrounds/<%= campground._id %>">Go back</a>

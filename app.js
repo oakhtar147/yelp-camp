@@ -1,18 +1,19 @@
-// Installing misc modules and dependencies
-const path = require('path');
-const flash = require('flash');
-const express = require('express');
-const ejsMate = require('ejs-mate');
-const bodyParser = require('body-parser');
-const session = require('express-session'); 
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const methodOverride = require('method-override');
-const ExpressError = require('./utils/ExpressError');
-const userRoutes = require('./routes/users');
-const reviewRoutes = require('./routes/reviews');
-const campgroundRoutes = require('./routes/campgrounds');
-const User = require('./models/user');
+if(process.env.NODE_ENV !== "production") { require('dotenv').config(); };
+
+const path = require('path'),
+      flash = require('flash'),
+      express = require('express'),
+      ejsMate = require('ejs-mate'),
+      bodyParser = require('body-parser'),
+      session = require('express-session'),
+      passport = require('passport'),
+      LocalStrategy = require('passport-local').Strategy,
+      methodOverride = require('method-override'),
+      ExpressError = require('./utils/ExpressError'),
+      userRoutes = require('./routes/users'),
+      reviewRoutes = require('./routes/reviews'),
+      campgroundRoutes = require('./routes/campgrounds'),
+      User = require('./models/user');
 
 const app = express();
 app.engine('ejs', ejsMate);
@@ -72,6 +73,13 @@ app.use((err, req, res, next) => {
     res.status(err.statusCode || 400).render('error', { err });
 })
 
-app.listen(3000, () => {
-    console.log("Serving on port 3000");
+app.listen(PORT=3000 || process.env.PORT, () => {
+    console.log(`Serving on port ${PORT}`);
 })
+
+/* 
+    TODO:
+        - Fix the req.flash, no messages are currently being flashed
+        - Fix the casourel
+        - Fix the validation schema in Joi
+*/

@@ -1,3 +1,4 @@
+const { cloudinary } = require('../cloudinary');
 const Campground = require('../models/campground');
 
 
@@ -10,8 +11,9 @@ module.exports.renderNewForm = (req, res) => {
     res.render('campgrounds/new');
 };
 
-module.exports.createCampground = async (req, res, next) => {
+module.exports.createCampground = async (req, res) => {
     const newCampground =  new Campground(req.body.campground);
+    newCampground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     newCampground.author = req.user._id;
     await newCampground.save();
     req.flash('success', 'Successfully created the campground!');
@@ -21,13 +23,13 @@ module.exports.createCampground = async (req, res, next) => {
 module.exports.showCampground = async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id)
-                                       .populate({
+                                    .populate({
                                         path: 'reviews', 
                                         populate: {
                                             path: 'author'
                                         }
                                         })
-                                       .populate('author');
+                                    .populate('author'); 
     res.render('campgrounds/show', { campground });
 };
 
@@ -39,12 +41,22 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.editCampground = async (req, res) => {
     const { id } = req.params;
-    const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground}, { new: true });
+    const { imagesToDelete = [] } = req.body;
+    const newImages = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground });
+    if(imagesToDelete.length > 0) {
+        await campground.updateOne({$pull: { images:  {filename: { $in: imagesToDelete } }}});
+        for(let filename of imagesToDelete) {
+            cloudinary.uploader.destroy(filename);
+        }
+    }
+    campground.images.push(...newImages);   
+    await campground.save();
     res.redirect(`/campgrounds/${campground._id}`);
 };
 
 module.exports.destroyCampground = async (req, res) => {
     const { id } = req.params;
-    const campground = await Campground.findByIdAndDelete(id);
+    await Campground.findByIdAndDelete(id);
     res.redirect("/campgrounds");
 };

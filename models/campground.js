@@ -1,10 +1,23 @@
-const mongoose = require('mongoose');
-const Review = require('./review');
-const { Schema } = mongoose;
+const mongoose = require('mongoose'),
+      Review = require('./review'),
+      { Schema } = mongoose;
+
+const opts = { toJSON: { virtuals: true } };
+
+const ImageSchema = new Schema({
+    url: String,
+    filename: String,
+}, opts);
+
+ImageSchema.virtual('thumbnail').get(function() {
+    return this.url.replace('upload/', 'upload/w_250/');
+})
 
 const CampgroundSchema = new Schema({
     title: String,
-    image: String,
+    images: [
+        ImageSchema
+    ],
     price: Number,
     description: String,
     location: String,
@@ -28,5 +41,5 @@ CampgroundSchema.post('findOneAndDelete', async (doc) => {
     }
 });
 
-module.exports = mongoose.model('Campground', CampgroundSchema);
 
+module.exports = mongoose.model('Campground', CampgroundSchema);

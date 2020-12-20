@@ -9,10 +9,12 @@ module.exports.validateCampgroundSchema = Joi.object({
                 .number()
                 .min(0)
                 .required(),
-        image: Joi
-                .string()
-                .uri()
-                .required(),
+        images: Joi
+                .array()
+                .items({
+                        url: Joi.string().required(),
+                        filename: Joi.string().required() 
+                }).required(),
         location: Joi
                 .string()
                 .required(),
