@@ -1,14 +1,17 @@
 <% layout('layouts/boilerplate') -%>
 
+<script defer> const MAPBOX_PUBLIC_TOKEN = "<%- process.env.MAPBOX_PUBLIC_TOKEN %>"; </script>
+<script defer src="/js/clusterMap.js"></script>
+
+<div id="map" style="width:100%; height: 500px;"></div>
 <h1>Campgrounds</h1>
-<div><a href="/campgrounds/new">Add Campground</a></div>    
 
     <% for(let campground of campgrounds) {%>
         <div class="card mb-5" >
             <div class="row">
                 <div class="col-md-4">
                     <% if (campground.images.length === 0) { %>
-                        <img class="img-fluid" src="https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="">
+                        <img class="img-fluid" loading=lazy src="https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="">
                     <% } else { %>  
                     <img class="img-fluid" src="<%= campground.images[Math.floor(Math.random() * campground.images.length)].url %>" alt="">
                     <% } %> 

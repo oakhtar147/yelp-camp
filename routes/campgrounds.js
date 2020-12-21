@@ -5,6 +5,7 @@ const express = require('express'),
       { cloudinaryStorage } = require('../cloudinary'),
       upload = require('multer')({ storage: cloudinaryStorage }),
       { loginRequired, isCampgroundAuthor, validateCampground } = require('../middleware');
+      
 
 router.route('/')
     .get(catchAsync(campgrounds.index))   

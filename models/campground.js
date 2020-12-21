@@ -2,6 +2,7 @@ const mongoose = require('mongoose'),
       Review = require('./review'),
       { Schema } = mongoose;
 
+      
 const opts = { toJSON: { virtuals: true } };
 
 const ImageSchema = new Schema({
@@ -21,6 +22,17 @@ const CampgroundSchema = new Schema({
     price: Number,
     description: String,
     location: String,
+    geolocation: {
+        type: {
+          type: String, 
+          enum: ['Point'], 
+          required: true
+        },
+        coordinates: {
+          type: [Number],
+          required: true
+        }
+    },
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'

@@ -1,6 +1,12 @@
 <% layout('layouts/boilerplate') -%>
 <link rel="stylesheet" href="/stylesheets/stars.css">
 
+<script defer> 
+    const MAPBOX_PUBLIC_TOKEN = "<%- process.env.MAPBOX_PUBLIC_TOKEN %>";
+    const campground = <%- JSON.stringify(campground) %>
+</script>
+
+<script defer src="/js/showPageMap.js"></script>
 
 <div class="row">
     <div class="col-md-6 mb-5">
@@ -38,6 +44,7 @@
           </div>
         </div>
         <div class="col-md-6 mb-5">
+            <div class="mb-3" id='map' style='width: auto; height: 300px;'></div>
             <% if(!currentUser) { %>
                 <h3>Sign in to leave a review</h3> 
                 <hr>

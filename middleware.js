@@ -1,4 +1,4 @@
-const { validateCampgroundSchema, validateReviewSchema } = require('./validations/validation_schemas'),
+const { validateCampgroundSchema, validateReviewSchema } = require('./validations/validationSchemas'),
       ExpressError = require('./utils/ExpressError'),
       Campground = require('./models/campground'),
       Review = require('./models/review');
@@ -18,8 +18,7 @@ module.exports.isCampgroundAuthor = async (req, res, next) => {
     if(!campground.author.equals(req.user._id)) {
         req.flash('error', 'You are not authorized to make changes');
         return res.redirect(`/campgrounds/${campground._id}`);
-    } else 
-        next();
+    } next();
 }
 
 module.exports.isReviewAuthor = async (req, res, next) => {
@@ -28,8 +27,7 @@ module.exports.isReviewAuthor = async (req, res, next) => {
     if(!review.author.equals(req.user._id)) {
         req.flash('error', 'You are not authorized to delete this review!');
         return res.redirect(`/campgrounds/${id}`);
-    } else 
-        next();
+    } next();
 }
 
 module.exports.validateCampground = (req, res, next) => {
@@ -37,8 +35,7 @@ module.exports.validateCampground = (req, res, next) => {
     if (error) {
         const message = error.details.map(el => el.message).join(',');
         throw new ExpressError(message, 400);
-    } else
-        next();
+    } next();
 }
 
 module.exports.validateReview = (req, res, next) => {
@@ -46,7 +43,5 @@ module.exports.validateReview = (req, res, next) => {
     if (error) {
         const message = error.details.map(el => el.message).join(',');
         throw new ExpressError(message, 400);
-    } else {
-        next();
-    } 
+    } next();
 }

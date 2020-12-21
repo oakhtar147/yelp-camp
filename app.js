@@ -14,6 +14,7 @@ const path = require('path'),
       reviewRoutes = require('./routes/reviews'),
       campgroundRoutes = require('./routes/campgrounds'),
       User = require('./models/user');
+      
 
 const app = express();
 app.engine('ejs', ejsMate);
@@ -80,6 +81,6 @@ app.listen(PORT=3000 || process.env.PORT, () => {
 /* 
     TODO:
         - Fix the req.flash, no messages are currently being flashed
-        - Fix the casourel
+        - Fix the carousel
         - Fix the validation schema in Joi
 */
