@@ -45,6 +45,9 @@
             </div>
 
             <div class="mb-3">
+            <% if (campground.images.length === 0) { %>
+                <h5>There are no images for this campground.</h5>
+            <% } else { %>       
                 <h5>Select images you would like to remove</h5>
                 <hr>
                 <% campground.images.forEach((img, i) => { %> 
@@ -53,6 +56,7 @@
                         <input type="checkbox" id="image-<%= i %>" name="imagesToDelete[]" value="<%= img.filename %>">
                     </div>
                 <% }) %> 
+            <% } %> 
             </div>
 
             <div class="mb-3">    

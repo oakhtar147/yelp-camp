@@ -41,7 +41,8 @@ module.exports.validateCampgroundSchema = Joi.object({
                 .string()
                 .allow('')
                 .escapeHTML()
-    }).required()
+    }).required(),
+    imagesToDelete: Joi.array()
 })  
 
 module.exports.validateReviewSchema = Joi.object({
