@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -19,8 +20,6 @@
   "homepage": "https://github.com/oakhtar147/yelp-camp#readme",
   "dependencies": {
     "@mapbox/mapbox-sdk": "^0.11.0",
-    "busboy": "^0.3.1",
-    "busboy-body-parser": "^0.3.2",
     "cloudinary": "^1.23.0",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^3.2.0",
