@@ -22,7 +22,7 @@ const CampgroundSchema = new Schema({
     price: Number,
     description: String,
     location: String,
-    geolocation: {
+    geometry: {
         type: {
           type: String, 
           enum: ['Point'], 
@@ -43,6 +43,15 @@ const CampgroundSchema = new Schema({
             ref: 'Review'
         }
     ]
+}, opts);
+
+CampgroundSchema.virtual('properties.popUpHTML').get(function() {
+    return `<h6>
+                <a href="/campgrounds/${this._id}">
+                    <strong>${this.title}</strong>
+                </a>
+            </h6>
+            <p>${this.description.substring(0, 25)}...</p>`
 });
 
 CampgroundSchema.post('findOneAndDelete', async (doc) => {

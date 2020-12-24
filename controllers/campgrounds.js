@@ -1,3 +1,5 @@
+const ExpressError = require('../utils/ExpressError');
+
 const Campground = require('../models/campground'),
       { cloudinary } = require('../cloudinary'),
       mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding'),
@@ -19,14 +21,18 @@ module.exports.createCampground = async (req, res) => {
         query: campground.location,
         limit: 1
     }).send();
-    const { geometry } = geoData.body.features[0];
-    const newCampground =  new Campground(campground);
-    newCampground.geolocation = geometry;
-    newCampground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
-    newCampground.author = req.user._id;
-    await newCampground.save();
-    req.flash('success', 'Successfully created the campground!');
-    res.redirect(`/campgrounds/${newCampground._id}`);
+    try {
+        const { geometry } = geoData.body.features[0];
+        const newCampground =  new Campground(campground);
+        newCampground.geometry = geometry;
+        newCampground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
+        newCampground.author = req.user._id;
+        await newCampground.save();
+        req.flash('success', 'Successfully created the campground!');
+        res.redirect(`/campgrounds/${newCampground._id}`);
+    } catch (err) {
+        throw new ExpressError('Please provide a proper location for the campground.', 400);
+    }
 };
 
 module.exports.showCampground = async (req, res) => {

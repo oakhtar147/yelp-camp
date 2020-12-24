@@ -7,7 +7,7 @@ const { validateCampgroundSchema, validateReviewSchema } = require('./validation
 module.exports.loginRequired = (req, res, next) => {
     if(!req.isAuthenticated()) {
         req.session.redirectUrl = req.originalUrl;
-        req.flash('You must be logged in for this.');
+        req.flash('error', 'You must log in before creating a new campground.');
         return res.redirect('/login');
     } next();
 }

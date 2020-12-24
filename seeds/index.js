@@ -10,9 +10,9 @@ db.once('open', function() {
 })
 
 // import the Campground model
-const Campground = require('../models/campground');
-const {descriptors, places} = require('./seedHelpers');
-const { jsonCities } = require('./worldCities');
+const Campground = require('../models/campground'),
+      { jsonCities } = require('./worldCities'),
+      { descriptors, places } = require('./seedHelpers');
 
 const sample = array => array[Math.floor(Math.random() * array.length)]
 
@@ -24,7 +24,7 @@ const seedDB = async () => {
         const camp = new Campground({
             title: `${sample(descriptors)} ${sample(places)}`,
             author: '5fd9dfa0bf96232b2c5dc8c0',
-            "geolocation" : {
+            "geometry" : {
               "type" : "Point",
               "coordinates" : [  
                   jsonCities[randomIndex].lng,

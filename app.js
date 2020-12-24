@@ -1,21 +1,21 @@
 if(process.env.NODE_ENV !== "production") { require('dotenv').config(); };
 
 const path = require('path'),
-      flash = require('flash'),
-      express = require('express'),
-      ejsMate = require('ejs-mate'),
-      bodyParser = require('body-parser'),
-      session = require('express-session'),
-      passport = require('passport'),
-      LocalStrategy = require('passport-local').Strategy,
-      methodOverride = require('method-override'),
-      ExpressError = require('./utils/ExpressError'),
-      userRoutes = require('./routes/users'),
-      reviewRoutes = require('./routes/reviews'),
-      campgroundRoutes = require('./routes/campgrounds'),
-      User = require('./models/user');
+    express = require('express'),
+    ejsMate = require('ejs-mate'),
+    bodyParser = require('body-parser'),
+    session = require('express-session'),
+    passport = require('passport'),
+    flash = require('connect-flash'),   
+    LocalStrategy = require('passport-local').Strategy,
+    methodOverride = require('method-override'),
+    ExpressError = require('./utils/ExpressError');
+    userRoutes = require('./routes/users'),
+    reviewRoutes = require('./routes/reviews'),
+    campgroundRoutes = require('./routes/campgrounds'),
+    User = require('./models/user');
+ 
       
-
 const app = express();
 app.engine('ejs', ejsMate);
 app.set('views', path.join(__dirname, 'views'));
@@ -38,6 +38,8 @@ app.use(flash());
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    res.locals.info = req.flash('info');
     next();
 })
 app.use(express.static(path.join(__dirname, 'public')));

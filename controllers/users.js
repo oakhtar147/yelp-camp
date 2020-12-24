@@ -6,6 +6,11 @@ module.exports.renderRegisterForm = (req, res) => {
 
 module.exports.registerUser = async (req, res, next) => {
     const { username, email, password } = req.body.user;
+    const { confirmPassword } = req.body;
+    if ( password !== confirmPassword ) { 
+        req.flash('error', 'Passwords do not match.');
+        return res.redirect('/register');
+    } 
     const user = new User({ email: email, username: username })
     const registeredUser = await User.register(user, password);
     req.login(registeredUser, err => { if(err) next(err); });
@@ -18,15 +23,15 @@ module.exports.renderLoginForm = (req, res) => {
 };
 
 module.exports.loginUser = (req, res) => {
-    const { username } = req.body.username;
+    const { username } = req.body;
     const { redirectUrl = '/campgrounds' } = req.session;
     delete req.session.redirectUrl;
-    req.flash('success', `Logged in as ${username}`)
-    res.redirect(redirectUrl);
+    req.flash('success', `Hello, ${username}!`)
+    res.redirect(redirectUrl);  
 };
 
 module.exports.logoutUser = (req, res) => {
     req.logout();
-    req.flash('success', 'We hope to see you again soon!')
+    req.flash('info', 'We hope to see you again soon!')
     res.redirect('/campgrounds');
 };
