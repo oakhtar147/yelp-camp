@@ -40,8 +40,13 @@
             </div>
 
             <div class="mb-4">
-                <label for="campgroundImages" class="form-label">Upload Images</label>
-                <input class="form-control" type="file" id="campgroundImages" name="campgroundImages" multiple>
+                <div class="form-file custom-file">
+                    <input type="file" class="form-file-input" id="campgroundImages" name="campgroundImages" multiple>
+                    <label class="form-file-label" for="campgroundImages">
+                        <span class="form-file-text custom-file-label">Choose image(s)...</span>
+                        <span class="form-file-button">Browse</span>
+                    </label>
+                </div>
             </div>
 
             <div class="mb-3">
